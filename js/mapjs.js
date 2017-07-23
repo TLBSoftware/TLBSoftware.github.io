@@ -2,17 +2,13 @@
 function initMap(){
 	
     mymap = L.map('map').setView([38.2187494,-85.4745504], 14);
+    overlayobj = {};
     var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 	var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
 	var osm = new L.TileLayer(osmUrl, {minZoom: 8, attribution: osmAttrib}).addTo(mymap);
     mymap.on('click', (e) => {console.log(e.latlng);});
     $.getJSON("../data/parsedstreamfile.json", (streams) =>{
-            layer = L.geoJSON(streams, {
-            onEachFeature: (f, l) =>{
-                l.on('click', FeatureOnClick);
-            },
-            style: ColorStreamsStyle
-        }).addTo(mymap);
+        MakeClickLayer(streams)
         console.log(streams);
         
         $.getJSON("../data/parsednodefile.json", (nodes) =>{
@@ -36,7 +32,8 @@ function ColorStreamsStyle(f){
 
 function FeatureOnClick(e){
     console.log(e);
-    mymap.removeLayer(layer)
+    mymap.removeLayer(overlayobj.ColoredLayer);
+    mymap.removeLayer(overlayobj.ClickLayer);
     var returnedgeojson = Streamer.DownstreamTrace(e.target.feature);
     L.geoJSON(returnedgeojson, 
         {
@@ -48,4 +45,20 @@ function FeatureOnClick(e){
 	    }
         }
     ).addTo(mymap);
+}
+
+function MakeClickLayer(data){
+    overlayobj.ColoredLayer = L.geoJSON(data, {
+        onEachFeature: (f, l) =>{
+            l.on('click', FeatureOnClick);
+        },
+        style: ColorStreamsStyle
+    }).addTo(mymap);
+    let styleobj = {};
+    overlayobj.ClickLayer = L.geoJSON(data, {
+        onEachFeature: (f, l) =>{
+            l.on('click', FeatureOnClick);
+        },
+        style: {color: "#ff0000", opacity: 0.0, weight: 11}
+    }).addTo(mymap);
 }
