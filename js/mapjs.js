@@ -5,7 +5,7 @@ function initMap(){
     var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 	var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
 	var osm = new L.TileLayer(osmUrl, {minZoom: 8, attribution: osmAttrib}).addTo(mymap);
-
+    mymap.on('click', (e) => {console.log(e.latlng);});
     $.getJSON("../data/parsedstreamfile.json", (streams) =>{
             layer = L.geoJSON(streams, {
             onEachFeature: (f, l) =>{
