@@ -11,7 +11,7 @@ function initMap(){
     $.getJSON("../data/parsedstreamfile.json", (streams) =>{
         MakeClickLayer(streams)
         console.log(streams);
-        LControl = L.layerControl(baselayer, overlayobj);
+        LControl = L.layerControl(baselayer, overlayobj).addTo(mymap);
         
         $.getJSON("../data/parsednodefile.json", (nodes) =>{
           Streamer = new StreamNodeHierarchy();
