@@ -64,5 +64,6 @@ function MakeClickLayer(data){
         style: {color: "#ff0000", opacity: 0.0, weight: 11}
     });
     let newLayerGroup = L.layerGroup([ColoredLayer, ClickLayer]);
-    overlayobj.ClickLayer = newLayerGroup.addTo(map);
+    newLayerGroup.addTo(map);
+    overlayobj.ClickLayer = newLayerGroup;
 }
