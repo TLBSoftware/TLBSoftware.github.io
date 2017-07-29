@@ -12,7 +12,7 @@ function initMap(){
         MakeClickLayer(streams)
         console.log(streams);
         LControl = L.layerControl(baselayer, overlayobj).addTo(mymap);
-        
+        //
         $.getJSON("../data/parsednodefile.json", (nodes) =>{
           Streamer = new StreamNodeHierarchy();
             Streamer.LoadData(streams, nodes);  
