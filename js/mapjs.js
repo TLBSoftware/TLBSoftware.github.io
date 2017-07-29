@@ -34,7 +34,6 @@ function ColorStreamsStyle(f){
 
 function FeatureOnClick(e){
     console.log(e);
-    mymap.removeLayer(overlayobj.ColoredLayer);
     mymap.removeLayer(overlayobj.ClickLayer);
     var returnedgeojson = Streamer.DownstreamTrace(e.target.feature);
     L.geoJSON(returnedgeojson, 
